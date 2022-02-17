@@ -1,0 +1,91 @@
+>>> Create table client
+
+CREATE TABLE client (  
+				  id serial PRIMARY KEY NOT NULL,
+				  fname VARCHAR(30) NOT NULL,
+                  lname VARCHAR(30) NOT NULL,
+                  phone VARCHAR(30) NOT NULL,
+                  email VARCHAR(30) NOT NULL,
+                  p_code VARCHAR(10) NOT NULL,
+                  city VARCHAR(30) NOT NULL,
+                  country VARCHAR(30) NOT NULL
+				);
+
+CREATE TABLE hotel_type (  
+				  id serial PRIMARY KEY NOT NULL,
+                  star_num VARCHAR(15) NOT NULL,
+                  caracteristique VARCHAR(220) NOT NULL
+				);
+
+CREATE TABLE prestation (  
+				  id serial PRIMARY KEY NOT NULL,
+                  code VARCHAR(15) NOT NULL,
+                  designation VARCHAR(220) NOT NULL,
+                  price FLOAT(15) NOT NULL
+				);
+
+CREATE TABLE room_cat (  
+				  id serial PRIMARY KEY NOT NULL,
+                  title VARCHAR(30) NOT NULL,
+                  description VARCHAR(220) NOT NULL,
+                  price FLOAT(15) NOT NULL
+				);
+
+CREATE TABLE hotel (  
+				  id serial PRIMARY KEY NOT NULL,
+                  name VARCHAR(30) NOT NULL,
+                  address VARCHAR(100) NOT NULL,
+                  p_code VARCHAR(20) NOT NULL,
+                  phone VARCHAR(20) NOT NULL,
+                  hoteltype_id INT NOT NULL,
+                  prestation_id INT NOT NULL,
+                  FOREIGN KEY (hoteltype_id) REFERENCES hotel_type (id),
+                  FOREIGN KEY (prestation_id) REFERENCES prestation (id)
+				);
+            
+CREATE TABLE room (  
+				  id serial PRIMARY KEY NOT NULL,
+                  room_num VARCHAR(10) NOT NULL,
+                  phone VARCHAR(20) NOT NULL,
+                  roomcat_id INT NOT NULL,
+                  hotel_id INT NOT NULL,
+                  FOREIGN KEY (roomcat_id) REFERENCES room_cat (id),
+                  FOREIGN KEY (hotel_id) REFERENCES hotel (id)
+				);
+
+CREATE TABLE reservation (  
+				  id serial PRIMARY KEY NOT NULL,
+                  resv_num VARCHAR(10) NOT NULL,
+                  resv_date DATE NOT NULL,
+                  resv_start_date DATE NOT NULL,
+                  resv_end_date DATE NOT NULL,
+                  payment_date DATE NOT NULL,
+                  sum_pay FLOAT(20) NOT NULL,
+                  room_id INT NOT NULL,
+                  client_id INT NOT NULL,
+                  FOREIGN KEY (room_id) REFERENCES room (id),
+                  FOREIGN KEY (client_id) REFERENCES client (id)
+				);
+
+CREATE TABLE consommation (  
+				  id serial PRIMARY KEY NOT NULL,
+                  cons_num VARCHAR(10) NOT NULL,
+                  cons_date DATE NOT NULL,
+                  cons_time TIME NOT NULL,
+                  prestation_id INT NOT NULL,
+                  client_id INT NOT NULL,
+                  FOREIGN KEY (prestation_id) REFERENCES prestation (id),
+                  FOREIGN KEY (client_id) REFERENCES client (id)
+				);
+            
+CREATE TABLE facture (  
+				  id serial PRIMARY KEY NOT NULL,
+                  fact_num VARCHAR(10) NOT NULL,
+                  fact_sum FLOAT NOT NULL,
+                  cons_id INT NOT NULL,
+                  resv_id INT NOT NULL,
+                  client_id INT NOT NULL,
+                  FOREIGN KEY (cons_id) REFERENCES consommation (id),
+                  FOREIGN KEY (resv_id) REFERENCES reservation (id),
+                  FOREIGN KEY (client_id) REFERENCES client (id)
+				);
