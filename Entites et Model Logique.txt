@@ -1,0 +1,28 @@
+Identification des entites:
+
+- Hôtel
+- Chambre
+- Type hôtel(1-5 étoile)
+- Catègorie Chambre(9)
+- Reservation
+- Client
+- Consommation
+- Prestation
+- Facture
+
+
+Model logique de donnée:
+
+hotel_type(id, star_num, caracteristique)
+prestation(id, code, designation)
+hotel(id, name, address, p_code, phone, #prestation_id, #hoteltype_id)
+room_cat(id, title, description, price)
+room(id, room_num, phone, #hotel_id, #roomcat_id)
+client(id, fname, lname, phone, email, p_code, city, country)
+reservation(id, resv_num, resv_date, resv_start_date, resv_end_date, payment_date, sum_pay, #room_id, #client_id)
+consommation(id, cons_num, cons_date, cons_time, #prestation_id, #client_id)
+facture(id, fact_num, #client_id, #cons_id, #resv_id, fact_sum)
+
+
+
+
